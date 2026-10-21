@@ -1,0 +1,33 @@
+You are implementing and deploying MoSTaa-ChaT®, an omnichannel, multi-tenant SaaS platform by MoSTaa®.
+
+GOAL:
+Deliver a production-ready customer portal and employee operations portal that centralize website chat, WhatsApp Business Platform, Facebook Page Messenger and Instagram Professional messages. Preserve one verified customer history while preventing duplicate messages and duplicate employee/AI replies.
+
+REQUIRED MODULES:
+1. Customer authentication with Google, Facebook, OTP and WebAuthn/passkeys. Customer profile, linked verified identities, conversations, voice notes, orders, tickets and payment history.
+2. Employee authentication, roles, permissions, passkeys, unified inbox, notifications, conversation claims, locking, assignment, SLA, tags, orders, comments, complaints and audit logs.
+3. Channel administration with add account/number, remove, permanent delete, single ON/OFF, all ON/OFF, health state and reauthorization.
+4. Meta connectors using official APIs only. Verify webhook challenge and X-Hub-Signature-256. Normalize WhatsApp, Messenger and Instagram events. Store provider event IDs and outbound idempotency keys. Keep tokens encrypted server-side.
+5. AI orchestrator for text/voice input and text/voice output. Human approval before sensitive output. Suspend AI when a human owns a conversation. Do not provide autonomous clinical decisions.
+6. Microsoft SQL Server as the production database. Use parameterized queries, pooling, encrypted connections, least privilege, migrations, tenant isolation, indexes, monitoring, backups and tested restores.
+7. MoSTaa Integration API for MoSTaa-PharmOs and other systems, using API keys/OAuth, scopes, HMAC-signed webhooks and idempotency.
+8. Payments: QR payment with transaction reference, private receipt upload, pending verification, authorized approval/rejection, audit log and email receipt. Stripe and PayPal must use verified provider webhooks. Never activate from an emailed screenshot alone and never store card data.
+9. Plans: USD 1 per seat monthly, USD 20 company monthly, USD 50 enterprise white label monthly. Annual subscription gives 12 months for the price of 10. Prices must be configurable server-side.
+10. Reports: conversations, orders, agents, SLA, channels, payments and audit logs. Export CSV/JSON. Scheduled email reports and Database Mail option.
+11. Health endpoints: /api/health, /api/health/live and /api/health/ready. Include SQL status and latency without leaking credentials.
+12. GitHub: CI, CodeQL, scheduled production health check, Dependabot, Issue Forms, PR template, CODEOWNERS, protected main and production environment approval.
+13. Deployment: environment templates, Vercel configuration, Docker option, HTTPS, custom domain, secret manager and rollback instructions.
+
+BRANDING FOOTER:
+MoSTaa® | Innovation for The Future
+MoSTaa-ChaT® | Powered by MoSTaa®
+It's Built By 🤍 to our people
+Co-ordinator: Dr. Mostafa Al-Marabaa & Copilot agent
+🤍 Thanks to Allah for giving us the knowledge. 🤍
+© 2026 MoSTaa®. All rights reserved.
+
+NON-NEGOTIABLE SECURITY:
+Never commit .env files. Never expose Meta tokens in the browser. Verify signed webhooks. Do not merge customer identities by display name. Encrypt secrets. Prevent SQL injection. Validate uploads. Use private storage and short-lived URLs. Log administrative actions. Require explicit authorization for account deletion and receipt approval.
+
+DELIVERY ORDER:
+Local tests, GitHub controls, SQL Server schema and health, HTTPS deployment, final domain, WhatsApp Cloud API, Messenger, Instagram, AI, payments, backup restore test, launch checklist.

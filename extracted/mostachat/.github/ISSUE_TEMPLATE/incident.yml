@@ -1,0 +1,16 @@
+name: Production incident
+description: Track an outage without sensitive data
+title: "[Incident]: "
+labels: [incident, priority-critical]
+body:
+  - type: textarea
+    id: symptoms
+    attributes: {label: Sanitized symptoms}
+    validations: {required: true}
+  - type: checkboxes
+    id: safety
+    attributes:
+      label: Safety
+      options:
+        - label: No secrets or customer data are included.
+          required: true

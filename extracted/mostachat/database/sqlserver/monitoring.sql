@@ -1,0 +1,12 @@
+SET NOCOUNT ON;
+SELECT name,state_desc,recovery_model_desc,log_reuse_wait_desc FROM sys.databases WHERE name=N'mostaa_chat';
+USE mostaa_chat;
+SELECT name,type_desc,size*8.0/1024 size_mb,FILEPROPERTY(name,'SpaceUsed')*8.0/1024 used_mb,(size-FILEPROPERTY(name,'SpaceUsed'))*8.0/1024 free_mb FROM sys.database_files;
+SELECT r.session_id,r.blocking_session_id,r.status,r.command,r.wait_type,r.wait_time,r.cpu_time,r.total_elapsed_time,DB_NAME(r.database_id) database_name FROM sys.dm_exec_requests r WHERE r.session_id<>@@SPID;
+SELECT session_id,total_elapsed_time/1000 elapsed_seconds,wait_type,blocking_session_id FROM sys.dm_exec_requests WHERE total_elapsed_time>30000 ORDER BY total_elapsed_time DESC;
+DBCC OPENTRAN('mostaa_chat');
+SELECT TOP(20) wait_type,waiting_tasks_count,wait_time_ms,signal_wait_time_ms FROM sys.dm_os_wait_stats WHERE wait_type NOT LIKE 'SLEEP%' ORDER BY wait_time_ms DESC;
+SELECT TOP(50) database_name,type,backup_start_date,backup_finish_date,compressed_backup_size,physical_device_name FROM msdb.dbo.backupset b JOIN msdb.dbo.backupmediafamily m ON b.media_set_id=m.media_set_id WHERE database_name=N'mostaa_chat' ORDER BY backup_finish_date DESC;
+SELECT j.name,h.run_date,h.run_time,h.message FROM msdb.dbo.sysjobhistory h JOIN msdb.dbo.sysjobs j ON h.job_id=j.job_id WHERE h.step_id=0 AND h.run_status=0 ORDER BY h.instance_id DESC;
+SELECT TOP(50) * FROM msdb.dbo.sysmail_faileditems ORDER BY last_mod_date DESC;
+SELECT OBJECT_NAME(s.object_id)table_name,i.name,s.avg_fragmentation_in_percent,s.page_count FROM sys.dm_db_index_physical_stats(DB_ID(),NULL,NULL,NULL,'LIMITED')s JOIN sys.indexes i ON s.object_id=i.object_id AND s.index_id=i.index_id WHERE s.page_count>=1000 ORDER BY s.avg_fragmentation_in_percent DESC;

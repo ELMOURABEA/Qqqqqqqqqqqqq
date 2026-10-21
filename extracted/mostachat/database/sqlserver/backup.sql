@@ -1,0 +1,2 @@
+BACKUP DATABASE mostaa_chat TO DISK=N'D:\SQLBackups\mostaa_chat_full.bak' WITH COMPRESSION,CHECKSUM,INIT,STATS=10;
+RESTORE VERIFYONLY FROM DISK=N'D:\SQLBackups\mostaa_chat_full.bak' WITH CHECKSUM;

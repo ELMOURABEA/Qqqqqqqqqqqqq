@@ -1,0 +1,52 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bendary-50: #fef2f2;
+  --color-bendary-100: #ffe1e1;
+  --color-bendary-200: #fecaca;
+  --color-bendary-300: #fca5a5;
+  --color-bendary-400: #f87171;
+  --color-bendary-500: #ef4444;
+  --color-bendary-600: #dc2626;
+  --color-bendary-700: #b91c1c;
+  --color-bendary-800: #991b1b;
+  --color-bendary-900: #7f1d1d;
+  --color-bendary-950: #450a0a;
+
+  --color-mostaa-50: #ecfdf5;
+  --color-mostaa-100: #d1fae5;
+  --color-mostaa-500: #10b981;
+  --color-mostaa-600: #059669;
+  --color-mostaa-700: #047857;
+  --color-mostaa-800: #065f46;
+  --color-mostaa-900: #064e3b;
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 10px rgba(220, 38, 38, 0);
+  }
+}
+
+.pulse-glow {
+  animation: pulseGlow 2s infinite cubic-bezier(0.4, 0, 0.6, 1);
+}
