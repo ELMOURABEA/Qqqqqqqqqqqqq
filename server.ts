@@ -2,7 +2,6 @@ import express, { Request, Response } from 'express';
 import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { GoogleGenAI } from '@google/genai';
 import { initialMoSTaaState, catalogProducts, pharmacyBranches } from './src/data/pharmacyData.ts';
 
 dotenv.config();
@@ -229,6 +228,7 @@ app.post('/api/ai/chat', async (req: Request, res: Response) => {
 
   try {
     if (process.env.GEMINI_API_KEY) {
+      const { GoogleGenAI } = await import('@google/genai');
       const ai = new GoogleGenAI();
       const prompt = `
 أنت الصيدلي الإكلينيكي الافتراضي الذكي لصيدليات البنداري في مصر (El-Bendary Pharmacies) المدمج مع منصة MoSTaa-ChaT®.
