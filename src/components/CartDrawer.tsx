@@ -73,7 +73,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
     try {
       const order = await apiService.placeOrder({
         customerName: customerName || 'عميل صيدليات البنداري',
-        customerPhone: customerPhone || '+20 100 000 0000',
+        customerPhone: customerPhone || '01200400094',
         address: deliveryType === 'delivery' ? (address || 'المهندسين، الجيزة') : `استلام من: ${selectedBranch}`,
         governorate,
         branchName: selectedBranch,

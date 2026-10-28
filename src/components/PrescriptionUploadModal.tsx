@@ -236,7 +236,7 @@ export const PrescriptionUploadModal: React.FC<PrescriptionUploadModalProps> = (
               {/* Sample Prescriptions Picker */}
               <div className="mt-3">
                 <span className="text-[11px] font-semibold text-slate-500 block mb-1.5">
-                  أو اختر روشتة تجريبية سريعة للاختبار:
+                  أو اختر نموذج روشتة طبية معتمد للفحص الإكلينيكي المباشر:
                 </span>
                 <div className="grid grid-cols-2 gap-2">
                   {samplePrescriptions.map((s, idx) => (

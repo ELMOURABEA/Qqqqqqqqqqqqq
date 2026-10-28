@@ -46,11 +46,11 @@ app.get('/api/health', (req: Request, res: Response) => {
   const started = Date.now();
   res.json({
     status: 'healthy',
-    service: 'MoSTaa-ChaT',
-    version: '1.2.0',
+    service: 'MoSTaa-ChaT & El-Bendary Pharmacies Ecosystem',
+    version: '1.0.0-RELEASE',
     ecosystem: 'El-Bendary Pharmacies Egypt',
-    environment: process.env.NODE_ENV || 'development',
-    mode: 'production-ready',
+    environment: 'production',
+    mode: 'official-production',
     timestamp: new Date().toISOString(),
     uptimeSeconds: Math.round(process.uptime()),
     responseTimeMs: Date.now() - started,

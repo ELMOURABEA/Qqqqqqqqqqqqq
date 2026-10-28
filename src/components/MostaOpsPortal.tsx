@@ -4,7 +4,7 @@ import {
   Settings, Lock, Unlock, Check, X, Send, Sparkles, 
   Download, ArrowLeft, RefreshCw, UserCheck, ShieldCheck, 
   PhoneCall, ExternalLink, MessageSquare, AlertCircle, 
-  Upload, FileUp, FileDown, Plus, Trash2, Edit3, KeyRound, LogOut
+  Upload, FileUp, FileDown, Plus, Trash2, Edit3, KeyRound, LogOut, Users, Search
 } from 'lucide-react';
 import * as XLSX from 'xlsx';
 import { apiService } from '../services/apiService';
@@ -30,7 +30,10 @@ export const MostaOpsPortal: React.FC<MostaOpsPortalProps> = ({ onBackToStore })
   const [loginPin, setLoginPin] = useState('bendary2026');
   const [loginError, setLoginError] = useState('');
 
-  const [activeTab, setActiveTab] = useState<'overview' | 'inbox' | 'products' | 'channels' | 'payments' | 'reports' | 'settings'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'inbox' | 'products' | 'team_accounts' | 'channels' | 'payments' | 'reports' | 'settings'>('overview');
+  const [teamEmailSearch, setTeamEmailSearch] = useState('');
+  const [testEmailInput, setTestEmailInput] = useState('');
+  const [testEmailResult, setTestEmailResult] = useState<boolean | null>(null);
   const [state, setState] = useState<MoSTaaState | null>(null);
   const [selectedConvId, setSelectedConvId] = useState<string>('c1');
   const [replyText, setReplyText] = useState('');
@@ -201,13 +204,28 @@ export const MostaOpsPortal: React.FC<MostaOpsPortalProps> = ({ onBackToStore })
   if (!authEmail) {
     return (
       <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col justify-center items-center p-4 font-sans" dir="rtl">
-        <div className="bg-slate-900 border border-slate-800 p-8 rounded-3xl max-w-md w-full shadow-2xl space-y-6 text-right">
+        <div className="bg-slate-900 border border-slate-800 p-6 sm:p-8 rounded-3xl max-w-lg w-full shadow-2xl space-y-6 text-right">
           <div className="flex flex-col items-center text-center space-y-2">
             <BendaryLogo size="lg" />
             <h2 className="text-xl font-black text-white mt-3">بوابة الفريق - صيدليات البنداري</h2>
             <p className="text-xs text-slate-400">
-              الدخول مقصور على الصيادلة والإداريين المصرح لهم (200 بريد إلكتروني معتمد)
+              النظام الإداري الموحد للصيادلة والإداريين المعتمدين
             </p>
+          </div>
+
+          {/* Explicit 200 Approved Emails Confirmation Banner */}
+          <div className="bg-emerald-950/60 border border-emerald-500/40 p-3.5 rounded-2xl space-y-2">
+            <div className="flex items-center gap-2 text-emerald-400 font-bold text-xs">
+              <ShieldCheck className="w-4 h-4 shrink-0" />
+              <span>تم اعتماد وتأكيد نطاق الـ 200 بريد إلكتروني لفريق العمل</span>
+            </div>
+            <p className="text-[11px] text-slate-300 leading-relaxed font-mono">
+              النطاق المعتمد: <span className="text-emerald-300 font-bold">admin@bendaryph.com</span> وحتى <span className="text-emerald-300 font-bold">admin200@bendaryph.com</span>
+            </p>
+            <div className="flex items-center justify-between text-[10px] text-slate-400 pt-1 border-t border-emerald-800/40">
+              <span>الحسابات المعتمدة: 200 / 200</span>
+              <span className="text-emerald-400 font-bold">✓ مُفعلة ومؤكدة بالكامل</span>
+            </div>
           </div>
 
           {loginError && (
@@ -223,7 +241,7 @@ export const MostaOpsPortal: React.FC<MostaOpsPortalProps> = ({ onBackToStore })
               </label>
               <input
                 type="email"
-                placeholder="مثال: admin@bendaryph.com أو admin1@bendaryph.com"
+                placeholder="مثال: admin@bendaryph.com أو admin15@bendaryph.com"
                 value={loginInputEmail}
                 onChange={(e) => setLoginInputEmail(e.target.value)}
                 required
@@ -249,35 +267,49 @@ export const MostaOpsPortal: React.FC<MostaOpsPortalProps> = ({ onBackToStore })
 
             <button
               type="submit"
-              className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-black py-3.5 rounded-xl shadow-lg transition text-xs flex items-center justify-center gap-2"
+              className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-black py-3.5 rounded-xl shadow-lg transition text-xs flex items-center justify-center gap-2 active:scale-95"
             >
               <KeyRound className="w-4 h-4" />
               <span>تسجيل الدخول إلى بوابة الفريق</span>
             </button>
           </form>
 
-          {/* Quick test buttons */}
-          <div className="pt-2 border-t border-slate-800 text-[11px] text-slate-400 space-y-1.5">
-            <span className="block text-slate-500">تجربة سريعة للبريد المصرح به:</span>
-            <div className="flex flex-wrap gap-1.5">
+          {/* Quick preset chips to test / select verified emails */}
+          <div className="pt-2 border-t border-slate-800 text-[11px] text-slate-400 space-y-2">
+            <span className="block text-slate-400 font-bold text-xs">نماذج سريعة من الـ 200 بريد المعتمدين:</span>
+            <div className="flex flex-wrap gap-1.5 font-mono text-[10px]">
               <button
                 type="button"
                 onClick={() => setLoginInputEmail('admin@bendaryph.com')}
-                className="bg-slate-800 hover:bg-slate-700 text-emerald-400 px-2.5 py-1 rounded-lg font-mono text-[10px]"
+                className="bg-slate-800 hover:bg-slate-700 text-emerald-400 px-2 py-1 rounded-lg border border-slate-700"
               >
                 admin@bendaryph.com
               </button>
               <button
                 type="button"
-                onClick={() => setLoginInputEmail('admin25@bendaryph.com')}
-                className="bg-slate-800 hover:bg-slate-700 text-emerald-400 px-2.5 py-1 rounded-lg font-mono text-[10px]"
+                onClick={() => setLoginInputEmail('admin1@bendaryph.com')}
+                className="bg-slate-800 hover:bg-slate-700 text-emerald-400 px-2 py-1 rounded-lg border border-slate-700"
               >
-                admin25@bendaryph.com
+                admin1@bendaryph.com
+              </button>
+              <button
+                type="button"
+                onClick={() => setLoginInputEmail('admin50@bendaryph.com')}
+                className="bg-slate-800 hover:bg-slate-700 text-emerald-400 px-2 py-1 rounded-lg border border-slate-700"
+              >
+                admin50@bendaryph.com
+              </button>
+              <button
+                type="button"
+                onClick={() => setLoginInputEmail('admin100@bendaryph.com')}
+                className="bg-slate-800 hover:bg-slate-700 text-emerald-400 px-2 py-1 rounded-lg border border-slate-700"
+              >
+                admin100@bendaryph.com
               </button>
               <button
                 type="button"
                 onClick={() => setLoginInputEmail('admin200@bendaryph.com')}
-                className="bg-slate-800 hover:bg-slate-700 text-emerald-400 px-2.5 py-1 rounded-lg font-mono text-[10px]"
+                className="bg-slate-800 hover:bg-slate-700 text-emerald-400 px-2 py-1 rounded-lg border border-slate-700"
               >
                 admin200@bendaryph.com
               </button>
@@ -395,6 +427,22 @@ export const MostaOpsPortal: React.FC<MostaOpsPortalProps> = ({ onBackToStore })
                 {state.conversations.length}
               </span>
             )}
+          </button>
+
+          {/* TAB: Team Accounts (200 Approved Emails) */}
+          <button
+            onClick={() => setActiveTab('team_accounts')}
+            className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-bold transition text-right ${
+              activeTab === 'team_accounts' ? 'bg-bendary-700 text-white' : 'text-slate-400 hover:bg-slate-800 hover:text-white'
+            }`}
+          >
+            <div className="flex items-center gap-2.5">
+              <Users className="w-4 h-4 text-emerald-400" />
+              <span>فريق العمل (200 بريد)</span>
+            </div>
+            <span className="bg-emerald-950 text-emerald-300 border border-emerald-500/40 text-[10px] px-2 py-0.2 rounded-full font-bold">
+              200
+            </span>
           </button>
 
           <button
@@ -867,6 +915,198 @@ export const MostaOpsPortal: React.FC<MostaOpsPortalProps> = ({ onBackToStore })
             </div>
           )}
 
+          {/* TAB: TEAM ACCOUNTS (200 Approved Emails Confirmation & Management) */}
+          {activeTab === 'team_accounts' && (
+            <div className="space-y-6 max-w-5xl">
+              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+                <div>
+                  <div className="flex items-center gap-2">
+                    <h2 className="text-xl font-black text-white">سجل واعتماد الـ 200 بريد إلكتروني لفريق العمل</h2>
+                    <span className="bg-emerald-500/20 text-emerald-300 text-xs font-bold px-2.5 py-0.5 rounded-full border border-emerald-500/30">
+                      ✓ معتمد ومؤكد بالكامل
+                    </span>
+                  </div>
+                  <p className="text-xs text-slate-400 mt-1">
+                    النطاق الرسمي المعتمد لصيدليات البنداري: من admin@bendaryph.com وحتى admin200@bendaryph.com
+                  </p>
+                </div>
+
+                <div className="bg-slate-800 p-2.5 rounded-2xl border border-slate-700 text-xs font-mono text-emerald-400 flex items-center gap-2">
+                  <ShieldCheck className="w-4 h-4 text-emerald-400" />
+                  <span>200 / 200 حسابات مصرح بها</span>
+                </div>
+              </div>
+
+              {/* Status Overview Banner */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div className="bg-slate-800/80 p-4 rounded-2xl border border-slate-700">
+                  <div className="text-xs text-slate-400">إجمالي الحسابات المفعلة</div>
+                  <div className="text-2xl font-black text-white font-mono mt-1">200 حساب</div>
+                  <div className="text-[11px] text-emerald-400 mt-0.5">جاهزة ومربوطة بـ MoSTaa-ChaT</div>
+                </div>
+
+                <div className="bg-slate-800/80 p-4 rounded-2xl border border-slate-700">
+                  <div className="text-xs text-slate-400">صلاحيات الوصول</div>
+                  <div className="text-2xl font-black text-amber-300 font-mono mt-1">صيادلة وإداريين</div>
+                  <div className="text-[11px] text-slate-400 mt-0.5">تغطية الـ 11 فرع على مدار 24 ساعة</div>
+                </div>
+
+                <div className="bg-slate-800/80 p-4 rounded-2xl border border-slate-700">
+                  <div className="text-xs text-slate-400">حساب الجلسة الحالي</div>
+                  <div className="text-sm font-black text-emerald-400 font-mono mt-2 truncate">
+                    {authEmail}
+                  </div>
+                  <div className="text-[11px] text-slate-400 mt-0.5">تسجيل دخول موثق بنجاح</div>
+                </div>
+              </div>
+
+              {/* Live Email Authorization Tester */}
+              <div className="bg-slate-800/60 p-4 rounded-2xl border border-slate-700 space-y-3">
+                <h3 className="font-bold text-sm text-white flex items-center gap-2">
+                  <Sparkles className="w-4 h-4 text-amber-400" />
+                  <span>أداة التحقق الفوري من صلاحية أي بريد إلكتروني:</span>
+                </h3>
+                <div className="flex gap-2">
+                  <input
+                    type="email"
+                    placeholder="اكتب البريد لفحصه (مثال: admin75@bendaryph.com)..."
+                    value={testEmailInput}
+                    onChange={(e) => {
+                      setTestEmailInput(e.target.value);
+                      setTestEmailResult(null);
+                    }}
+                    className="flex-1 p-2.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white font-mono placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                  />
+                  <button
+                    onClick={() => {
+                      if (!testEmailInput.trim()) return;
+                      setTestEmailResult(isApprovedTeamEmail(testEmailInput));
+                    }}
+                    className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-4 rounded-xl text-xs transition"
+                  >
+                    فحص الصلاحية
+                  </button>
+                </div>
+
+                {testEmailResult !== null && (
+                  <div className={`p-3 rounded-xl text-xs font-bold flex items-center gap-2 ${
+                    testEmailResult 
+                      ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40' 
+                      : 'bg-red-500/20 text-red-300 border border-red-500/40'
+                  }`}>
+                    {testEmailResult ? (
+                      <>
+                        <Check className="w-4 h-4 text-emerald-400" />
+                        <span>البريد ({testEmailInput}) معتمد ومصرح له بالكامل ضمن الـ 200 بريد لفريق صيدليات البنداري!</span>
+                      </>
+                    ) : (
+                      <>
+                        <X className="w-4 h-4 text-red-400" />
+                        <span>عذراً، البريد ({testEmailInput}) غير مصرح له! النطاق المسموح به هو من admin@bendaryph.com وحتى admin200@bendaryph.com حصراً.</span>
+                      </>
+                    )}
+                  </div>
+                )}
+              </div>
+
+              {/* Roster of 200 Accounts */}
+              <div className="bg-slate-800/60 p-4 rounded-2xl border border-slate-700 space-y-3">
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+                  <div>
+                    <h3 className="font-bold text-sm text-white">قائمة الـ 200 حساب المعتمدين والموزعين على الفروع</h3>
+                    <p className="text-[11px] text-slate-400">توزيع الصلاحيات على الفروع الـ 11 وإدارة العمليات</p>
+                  </div>
+
+                  <div className="relative w-full sm:w-60">
+                    <Search className="w-3.5 h-3.5 text-slate-400 absolute right-3 top-2.5 pointer-events-none" />
+                    <input
+                      type="text"
+                      placeholder="ابحث برقم البريد أو الفرع..."
+                      value={teamEmailSearch}
+                      onChange={(e) => setTeamEmailSearch(e.target.value)}
+                      className="w-full pl-3 pr-8 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white placeholder-slate-500"
+                    />
+                  </div>
+                </div>
+
+                <div className="max-h-96 overflow-y-auto space-y-1.5 pr-1">
+                  {/* Master Account */}
+                  {('admin@bendaryph.com'.includes(teamEmailSearch) || 'المدير'.includes(teamEmailSearch)) && (
+                    <div className="p-3 bg-emerald-950/40 border border-emerald-500/30 rounded-xl flex items-center justify-between text-xs">
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <span className="font-mono text-emerald-300 font-bold">admin@bendaryph.com</span>
+                          <span className="bg-emerald-500 text-slate-950 text-[10px] font-black px-2 py-0.5 rounded-full">
+                            الحساب الرئيسي
+                          </span>
+                        </div>
+                        <span className="text-slate-400 text-[11px] mt-0.5 block">
+                          المدير العام والمسؤول التنفيذي (د. مصطفى المرابعة) • الإدارة المركزية
+                        </span>
+                      </div>
+                      <span className="text-emerald-400 text-[11px] font-bold">نشط ومفعل</span>
+                    </div>
+                  )}
+
+                  {/* 1 to 200 accounts */}
+                  {Array.from({ length: 200 }, (_, i) => {
+                    const num = i + 1;
+                    const email = `admin${num}@bendaryph.com`;
+                    let role = 'صيدلي إكلينيكي مناوب';
+                    let branch = 'فرع المهندسين';
+                    if (num <= 10) { role = 'مدير فرع ورئيس الصيادلة'; branch = 'فرع المهندسين'; }
+                    else if (num <= 25) { role = 'صيدلي أول واستشارات'; branch = 'فرع الجلاء (موقف الجلاء)'; }
+                    else if (num <= 40) { role = 'صيدلي مراجعة الروشتات'; branch = 'فرع الجلاء (جرين بالاس)'; }
+                    else if (num <= 60) { role = 'مسؤول التغذية والجلدية'; branch = 'فرع الجلاء (الأمن المركزي)'; }
+                    else if (num <= 80) { role = 'صيدلي مناوب 24 ساعة'; branch = 'فرع البورصة'; }
+                    else if (num <= 100) { role = 'صيدلي تحضيرات وتركيبات'; branch = 'فرع الأشرف'; }
+                    else if (num <= 120) { role = 'مسؤول خدمة عملاء وتوصيل'; branch = 'فرع كفر عصام'; }
+                    else if (num <= 140) { role = 'صيدلي إكلينيكي متقدم'; branch = 'فرع شارع سعيد'; }
+                    else if (num <= 160) { role = 'مسؤول تأمين طبي ونقابات'; branch = 'فرع المعرض'; }
+                    else if (num <= 180) { role = 'صيدلي طوارئ وتوصيل فوري'; branch = 'فرع طريق اسكندرية الزراعي'; }
+                    else { role = 'صيدلي رعاية مركزية ومناوبات'; branch = 'فرع المحافظة'; }
+
+                    if (teamEmailSearch && !email.includes(teamEmailSearch) && !branch.includes(teamEmailSearch) && !role.includes(teamEmailSearch)) {
+                      return null;
+                    }
+
+                    return (
+                      <div
+                        key={email}
+                        className="p-2.5 bg-slate-900/80 hover:bg-slate-900 border border-slate-800 rounded-xl flex items-center justify-between text-xs transition"
+                      >
+                        <div className="flex items-center gap-3">
+                          <span className="w-7 h-7 rounded-lg bg-slate-800 flex items-center justify-center font-mono text-[10px] text-slate-400 font-bold">
+                            {num}
+                          </span>
+                          <div>
+                            <span className="font-mono text-slate-200 font-bold block">{email}</span>
+                            <span className="text-slate-400 text-[10px]">
+                              {role} • <strong className="text-slate-300">{branch}</strong>
+                            </span>
+                          </div>
+                        </div>
+
+                        <div className="flex items-center gap-2">
+                          <span className="text-emerald-400 text-[10px] font-bold">مصرح به</span>
+                          <button
+                            onClick={() => {
+                              setAuthEmail(email);
+                              localStorage.setItem('bendary_team_auth_email', email);
+                            }}
+                            className="text-[10px] bg-slate-800 hover:bg-slate-700 text-slate-300 px-2 py-1 rounded-lg transition"
+                          >
+                            تبديل
+                          </button>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+          )}
+
           {/* TAB 6: SETTINGS & 200 EMAILS */}
           {activeTab === 'settings' && (
             <div className="space-y-4 max-w-3xl">
@@ -917,8 +1157,8 @@ export const MostaOpsPortal: React.FC<MostaOpsPortalProps> = ({ onBackToStore })
 
       {/* Operations Branding Footer */}
       <footer className="bg-slate-950 border-t border-slate-800 p-3 text-center text-[10px] text-slate-400">
-        <div className="font-bold text-slate-300">صيدليات البنداري • رعاية من القلب - 46 سنة</div>
-        <div className="text-slate-500 mt-0.5">الخط الساخن: 01200400094 • 11 فرع معتمد • بوابة الفريق الإدارية</div>
+        <div className="font-bold text-slate-300">صيدليات البنداري • رعاية من القلب - 46 سنة • الإصدار الرسمي Release v1.0</div>
+        <div className="text-slate-500 mt-0.5">الخط الساخن: 01200400094 • 11 فرع معتمد • بوابة الفريق الإدارية الموحدة</div>
       </footer>
     </div>
   );

@@ -31,6 +31,7 @@ export const MostaChatPlugin: React.FC<MostaChatPluginProps> = ({
   const [voiceSeconds, setVoiceSeconds] = useState(0);
   const [isAiThinking, setIsAiThinking] = useState(false);
   const [playingAudioId, setPlayingAudioId] = useState<string | null>(null);
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const timerRef = useRef<any>(null);
@@ -161,7 +162,10 @@ export const MostaChatPlugin: React.FC<MostaChatPluginProps> = ({
   const handleAddQuoteToCart = () => {
     onAddToCart(catalogProducts[0], 1);
     onAddToCart(catalogProducts[1], 1);
-    alert('تمت إضافة منتجات الروشتة المعتمدة (جافيسكون + هيلسيك) إلى سلة مشترياتك بنجاح!');
+    setToastMessage('تمت إضافة منتجات الروشتة المعتمدة (جافيسكون + هيلسيك) إلى سلة مشترياتك بنجاح!');
+    setTimeout(() => {
+      setToastMessage(null);
+    }, 4000);
   };
 
   const quickChips = [
@@ -257,6 +261,14 @@ export const MostaChatPlugin: React.FC<MostaChatPluginProps> = ({
           </div>
           <span className="text-[10px] font-mono text-slate-500 hidden sm:inline">مشفر ومحمي</span>
         </div>
+
+        {/* Toast Notification Banner */}
+        {toastMessage && (
+          <div className="bg-emerald-600 text-white px-4 py-2 text-xs font-bold text-center animate-in slide-in-from-top-2 shrink-0 flex items-center justify-center gap-2 shadow">
+            <Check className="w-4 h-4" />
+            <span>{toastMessage}</span>
+          </div>
+        )}
 
         {/* Chat Messages Body */}
         <div className="flex-1 p-4 overflow-y-auto space-y-3.5 bg-slate-50/70">
