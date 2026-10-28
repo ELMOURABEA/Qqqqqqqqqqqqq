@@ -8,6 +8,7 @@ import confetti from 'canvas-confetti';
 import { CartItem, Product, Order } from '../types/pharmacy';
 import { apiService } from '../services/apiService';
 import { pharmacyBranches } from '../data/pharmacyData';
+import { saveOrderToFirestore } from '../lib/firebase';
 
 interface CartDrawerProps {
   isOpen: boolean;
@@ -73,7 +74,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
     try {
       const order = await apiService.placeOrder({
         customerName: customerName || 'عميل صيدليات البنداري',
-        customerPhone: customerPhone || '+20 100 000 0000',
+        customerPhone: customerPhone || '01200400094',
         address: deliveryType === 'delivery' ? (address || 'المهندسين، الجيزة') : `استلام من: ${selectedBranch}`,
         governorate,
         branchName: selectedBranch,
@@ -84,6 +85,9 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
         total,
         paymentMethod
       });
+
+      // Persist to Firebase Firestore
+      await saveOrderToFirestore(order);
 
       confetti({ particleCount: 90, spread: 80, origin: { y: 0.5 } });
       onClearCart();

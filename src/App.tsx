@@ -21,6 +21,8 @@ import { MostaOpsPortal } from './components/MostaOpsPortal';
 import { MobileBottomNav } from './components/MobileBottomNav';
 import { FloatingChatIcons } from './components/FloatingChatIcons';
 import { BendaryLogo } from './components/BendaryLogo';
+import { CampaignAdsGallery } from './components/CampaignAdsGallery';
+import { CampaignAd } from './data/campaignAds';
 
 export default function App() {
   const [showTeamPortal, setShowTeamPortal] = useState<boolean>(false);
@@ -183,6 +185,10 @@ export default function App() {
             setChatPrefill(msg);
             setIsChatOpen(true);
           }}
+          onSelectCampaignOffer={(ad) => {
+            setChatPrefill(`السلام عليكم دكتور، أود طلب عرض الحملة الإعلانية: ${ad.title} (${ad.badge}) ماركة: ${ad.brand} من صيدليات البنداري - الخط الساخن 01200400094.`);
+            setIsChatOpen(true);
+          }}
         />
 
         {/* Quick Service Cards */}
@@ -242,6 +248,20 @@ export default function App() {
               <p className="text-[11px] text-slate-500 mt-1">المهندسين، الجلاء، البورصة، الأشرف والمحافظة</p>
             </div>
           </div>
+        </section>
+
+        {/* Campaign Advertisements Gallery (15 Special Offers) */}
+        <section className="max-w-7xl mx-auto px-4 mt-6">
+          <CampaignAdsGallery
+            onSelectOffer={(ad) => {
+              setChatPrefill(`السلام عليكم دكتور، أود طلب عرض الحملة الإعلانية: ${ad.title} (${ad.badge}) ماركة: ${ad.brand} من صيدليات البنداري.`);
+              setIsChatOpen(true);
+            }}
+            onOpenChat={() => {
+              setChatPrefill('السلام عليكم دكتور، أود الاستفسار عن عروض وحملات صيدليات البنداري الحالية.');
+              setIsChatOpen(true);
+            }}
+          />
         </section>
 
         {/* Product Catalog Grid */}
@@ -405,7 +425,7 @@ export default function App() {
             <p className="text-[10px] text-slate-600">
               Co-ordinator: Dr. Mostafa Al-Marabaa • 🤍 Thanks to Allah for giving us the knowledge. 🤍
             </p>
-            <p>© 2026 صيدليات البنداري مصر. جميع الحقوق محفوظة.</p>
+            <p>© 2026 صيدليات البنداري مصر • الإصدار الرسمي المعتمد Release v1.0 • جميع الحقوق محفوظة.</p>
           </div>
         </div>
       </footer>

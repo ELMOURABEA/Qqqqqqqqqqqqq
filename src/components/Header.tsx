@@ -50,38 +50,36 @@ export const Header: React.FC<HeaderProps> = ({
   return (
     <>
       {/* Top Banner: رعاية من القلب - 46 سنة & الخط الساخن 01200400094 بشكل بارز */}
-      <div className="bg-gradient-to-r from-bendary-950 via-bendary-900 to-red-950 text-white py-2 px-3 sm:px-4 shadow-md border-b-2 border-red-700/60 sticky top-0 z-40">
-        <div className="max-w-7xl mx-auto flex flex-wrap justify-between items-center gap-2">
+      <div className="bg-gradient-to-r from-bendary-950 via-bendary-900 to-red-950 text-white py-1.5 px-3 sm:px-4 shadow-md border-b-2 border-red-700/60 sticky top-0 z-40">
+        <div className="max-w-7xl mx-auto flex justify-between items-center gap-2">
           
           {/* Care from the Heart Badge - 46 Years */}
-          <div className="flex items-center gap-2">
-            <span className="flex items-center gap-1.5 bg-gradient-to-r from-red-600 to-bendary-700 text-white px-3.5 py-1 rounded-full font-black text-xs sm:text-sm shadow-md border border-red-400/50 tracking-wide">
-              <Heart className="w-4 h-4 fill-white text-white animate-pulse" />
+          <div className="flex items-center gap-2 min-w-0">
+            <span className="flex items-center gap-1.5 bg-gradient-to-r from-red-600 to-bendary-700 text-white px-2.5 sm:px-3.5 py-1 rounded-full font-black text-[11px] sm:text-xs shadow-md border border-red-400/50 tracking-wide shrink-0 whitespace-nowrap">
+              <Heart className="w-3.5 h-3.5 fill-white text-white animate-pulse" />
               <span>رعاية من القلب - 46 سنة</span>
             </span>
-            <span className="hidden md:inline text-slate-300 text-xs font-semibold">
-              صيدليات البنداري • في خدمتكم منذ 1980 وحتى اليوم 2026
+            <span className="hidden lg:inline text-slate-300 text-xs font-semibold truncate">
+              صيدليات البنداري • في خدمتكم منذ 1980 وحتى اليوم
             </span>
           </div>
 
           {/* Prominent Hotline 01200400094 Display */}
-          <div className="flex items-center gap-2 sm:gap-4">
+          <div className="flex items-center gap-2 shrink-0">
             <a 
               href="tel:01200400094" 
-              className="flex items-center gap-2 bg-amber-400 hover:bg-amber-300 text-bendary-950 px-3.5 sm:px-4 py-1.5 rounded-full font-black transition shadow-lg ring-2 ring-amber-300/60 active:scale-95 group"
+              className="flex items-center gap-1.5 bg-amber-400 hover:bg-amber-300 text-bendary-950 px-2.5 sm:px-4 py-1 rounded-full font-black transition shadow-lg ring-2 ring-amber-300/60 active:scale-95 group whitespace-nowrap"
               title="اتصل بالخط الساخن المباشر 01200400094"
             >
-              <div className="w-5 h-5 rounded-full bg-bendary-950 text-amber-400 flex items-center justify-center shrink-0 group-hover:scale-110 transition">
-                <PhoneCall className="w-3 h-3 animate-bounce" />
+              <div className="w-4 h-4 sm:w-5 sm:h-5 rounded-full bg-bendary-950 text-amber-400 flex items-center justify-center shrink-0 group-hover:scale-110 transition">
+                <PhoneCall className="w-2.5 h-2.5 sm:w-3 sm:h-3 animate-bounce" />
               </div>
-              <div className="flex items-baseline gap-1">
-                <span className="text-[11px] sm:text-xs font-bold hidden xs:inline">الخط الساخن:</span>
-                <span className="font-mono text-sm sm:text-base font-black tracking-wider">01200400094</span>
-              </div>
+              <span className="text-[10px] sm:text-xs font-bold hidden sm:inline">الخط الساخن:</span>
+              <span className="font-mono text-xs sm:text-sm font-black tracking-wider">01200400094</span>
             </a>
 
             {/* Quick Links */}
-            <div className="hidden sm:flex items-center gap-3 text-xs text-slate-200">
+            <div className="hidden md:flex items-center gap-2.5 text-xs text-slate-200">
               <button 
                 onClick={onOpenBranches}
                 className="flex items-center gap-1 hover:text-amber-300 transition text-[11px] font-bold"
@@ -117,10 +115,11 @@ export const Header: React.FC<HeaderProps> = ({
           
           {/* Logo Section with Official PDF Extracted Logo */}
           <div 
-            className="cursor-pointer transition hover:opacity-95" 
+            className="cursor-pointer transition hover:opacity-95 shrink-0" 
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
           >
-            <BendaryLogo size="md" />
+            <BendaryLogo size="sm" className="sm:hidden" />
+            <BendaryLogo size="md" className="hidden sm:flex" />
           </div>
 
           {/* Search Bar with live autocomplete */}
@@ -187,14 +186,13 @@ export const Header: React.FC<HeaderProps> = ({
 
           {/* User Quick Actions */}
           <div className="flex items-center gap-2 sm:gap-3">
-            {/* Prescription Button */}
+            {/* Prescription Button (Desktop only - accessible on mobile via BottomNav) */}
             <button
               onClick={onOpenPrescription}
-              className="flex items-center gap-1.5 text-xs font-bold text-white bg-bendary-600 hover:bg-bendary-700 px-3.5 py-2.2 rounded-xl shadow-sm hover:shadow transition active:scale-95"
+              className="hidden md:flex items-center gap-1.5 text-xs font-bold text-white bg-bendary-600 hover:bg-bendary-700 px-3.5 py-2.2 rounded-xl shadow-sm hover:shadow transition active:scale-95"
             >
               <Upload className="w-4 h-4" />
-              <span className="hidden sm:inline">ارفع الروشتة</span>
-              <span className="sm:hidden">روشتة</span>
+              <span>ارفع الروشتة</span>
             </button>
 
             {/* Insurance Button */}
@@ -206,18 +204,17 @@ export const Header: React.FC<HeaderProps> = ({
               <span>التأمين الطبي</span>
             </button>
 
-            {/* El-Bendary Pharmacist Consultation Trigger */}
+            {/* El-Bendary Pharmacist Consultation Trigger (Desktop only - accessible on mobile via BottomNav) */}
             <button
               onClick={onOpenChat}
-              className="flex items-center gap-1.5 text-xs font-bold text-emerald-800 bg-emerald-50 hover:bg-emerald-100 px-3 py-2 rounded-xl border border-emerald-200 shadow-sm transition active:scale-95"
+              className="hidden md:flex items-center gap-1.5 text-xs font-bold text-emerald-800 bg-emerald-50 hover:bg-emerald-100 px-3 py-2 rounded-xl border border-emerald-200 shadow-sm transition active:scale-95"
               title="استشارة صيدلي البنداري المباشرة 24 ساعة"
             >
               <div className="relative">
                 <MessageSquare className="w-4 h-4 text-emerald-600" />
                 <span className="absolute -top-1 -right-1 w-2 h-2 bg-emerald-500 rounded-full animate-ping"></span>
               </div>
-              <span className="hidden md:inline">استشارة صيدلي البنداري</span>
-              <span className="md:hidden">استشر صيدلي</span>
+              <span>استشارة صيدلي البنداري</span>
             </button>
 
             {/* Shopping Cart Button */}

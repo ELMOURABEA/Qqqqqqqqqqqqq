@@ -1,0 +1,84 @@
+{
+  "entities": {
+    "Order": {
+      "title": "Order",
+      "description": "Patient pharmacy medication order for home delivery or branch pickup",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "customerName": { "type": "string" },
+        "customerPhone": { "type": "string" },
+        "address": { "type": "string" },
+        "branchId": { "type": "string" },
+        "branchName": { "type": "string" },
+        "items": { "type": "array" },
+        "totalAmount": { "type": "number" },
+        "paymentMethod": { "type": "string" },
+        "status": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "customerName", "customerPhone", "totalAmount", "status"]
+    },
+    "Prescription": {
+      "title": "Prescription",
+      "description": "Uploaded medical prescription for pharmacist clinical verification and fulfillment",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "patientName": { "type": "string" },
+        "patientPhone": { "type": "string" },
+        "notes": { "type": "string" },
+        "imageUrl": { "type": "string" },
+        "status": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "patientPhone", "status"]
+    },
+    "Conversation": {
+      "title": "Conversation",
+      "description": "Patient consultation thread with El-Bendary clinical pharmacists",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "customer": { "type": "string" },
+        "customerPhone": { "type": "string" },
+        "channel": { "type": "string" },
+        "status": { "type": "string" },
+        "assignee": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "customer", "channel", "status"]
+    },
+    "ChatMessage": {
+      "title": "ChatMessage",
+      "description": "Individual message in clinical consultation thread",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "conversationId": { "type": "string" },
+        "sender": { "type": "string" },
+        "text": { "type": "string" },
+        "timestamp": { "type": "string" }
+      },
+      "required": ["id", "conversationId", "sender", "text"]
+    }
+  },
+  "firestore": {
+    "/orders/{orderId}": {
+      "schema": "Order",
+      "description": "Collection of patient orders"
+    },
+    "/prescriptions/{prescriptionId}": {
+      "schema": "Prescription",
+      "description": "Collection of uploaded prescriptions"
+    },
+    "/conversations/{conversationId}": {
+      "schema": "Conversation",
+      "description": "Collection of patient consultation threads"
+    },
+    "/conversations/{conversationId}/messages/{messageId}": {
+      "schema": "ChatMessage",
+      "description": "Subcollection of messages per consultation"
+    }
+  }
+}
