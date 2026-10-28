@@ -5,7 +5,7 @@ export interface CampaignAd {
   title: string;
   badge: string;
   badgeColor: string;
-  category: 'bluebell' | 'hair' | 'skin' | 'suncare' | 'body_care' | 'bot';
+  category: 'bluebell' | 'hair' | 'skin' | 'suncare' | 'body_care';
   subtitle: string;
   tagline: string;
   ctaText: string;
@@ -13,18 +13,6 @@ export interface CampaignAd {
 }
 
 export const CAMPAIGN_ADS: CampaignAd[] = [
-  {
-    id: 'ad-benda-bot',
-    image: '/assets/aistudio/IMG-20260921-WA0012_541f1a82.jpg',
-    brand: 'صيدليات البنداري • Benda Bot',
-    title: 'الروبوت الصيدلي الذكي (Benda Bot) في خدمتكم',
-    badge: 'خدمة حصرية 24/7',
-    badgeColor: 'bg-red-600',
-    category: 'bot',
-    subtitle: 'أول روبوت صيدلي إكلينيكي ذكي في صيدليات البنداري للإرشاد الدوائي، التوجيه الصحي، والربط اللحظي مع الصيادلة بالفروع',
-    tagline: 'صيدليات البنداري منذ 1980 • رعاية من القلب - 46 سنة',
-    ctaText: 'تحدث مع الصيدلي عبر Benda Bot'
-  },
   {
     id: 'ad-spire-clearsal',
     image: '/assets/aistudio/IMG-20260922-WA0011_e7fa8d94.jpg',

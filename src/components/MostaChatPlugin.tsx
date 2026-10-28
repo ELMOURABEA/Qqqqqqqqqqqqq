@@ -8,6 +8,7 @@ import { Product } from '../types/pharmacy';
 import { apiService } from '../services/apiService';
 import { catalogProducts } from '../data/pharmacyData';
 import { BendaryLogo } from './BendaryLogo';
+import { saveChatMessageToFirestore } from '../lib/firebase';
 
 interface MostaChatPluginProps {
   isOpen: boolean;
@@ -103,6 +104,7 @@ export const MostaChatPlugin: React.FC<MostaChatPluginProps> = ({
     // 1. Send patient message
     const patientMsg = await apiService.sendChatMessage('c1', text, patientName, 'text');
     setMessages(prev => [...prev, patientMsg]);
+    saveChatMessageToFirestore('c1', { id: patientMsg.id, sender: patientMsg.sender, text: patientMsg.text, timestamp: patientMsg.at });
 
     // 2. Trigger Pharmacist / AI response
     setIsAiThinking(true);
@@ -117,6 +119,7 @@ export const MostaChatPlugin: React.FC<MostaChatPluginProps> = ({
       { suggestedByAi: true }
     );
     setMessages(prev => [...prev, pharmacistMsg]);
+    saveChatMessageToFirestore('c1', { id: pharmacistMsg.id, sender: pharmacistMsg.sender, text: pharmacistMsg.text, timestamp: pharmacistMsg.at });
   };
 
   const handleSimulatePrescriptionUpload = async () => {

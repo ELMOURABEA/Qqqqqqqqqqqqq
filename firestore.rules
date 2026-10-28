@@ -1,0 +1,75 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Global Helper functions
+    function isValidId(id) {
+      return id is string && id.size() > 0 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isStaff() {
+      return isSignedIn() && (
+        request.auth.token.email == 'm.elmourabea@gmail.com' ||
+        (request.auth.token.email is string && request.auth.token.email.matches('^admin[0-9]*@bendaryph\\.com$'))
+      );
+    }
+
+    // Default deny catch-all
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Health / Connection test document
+    match /test/connection {
+      allow read: if true;
+    }
+
+    // Patient medication orders
+    match /orders/{orderId} {
+      allow read: if isValidId(orderId) && (isStaff() || true);
+      allow create: if isValidId(orderId) &&
+        request.resource.data.keys().hasAll(['id', 'customerName', 'customerPhone', 'totalAmount', 'status']) &&
+        request.resource.data.id is string &&
+        request.resource.data.customerPhone is string &&
+        request.resource.data.customerPhone.size() <= 30 &&
+        request.resource.data.customerName is string &&
+        request.resource.data.customerName.size() <= 100;
+      allow update, delete: if isStaff();
+    }
+
+    // Uploaded prescriptions
+    match /prescriptions/{prescriptionId} {
+      allow read: if isValidId(prescriptionId) && (isStaff() || true);
+      allow create: if isValidId(prescriptionId) &&
+        request.resource.data.keys().hasAll(['id', 'patientPhone', 'status']) &&
+        request.resource.data.id is string &&
+        request.resource.data.patientPhone is string &&
+        request.resource.data.patientPhone.size() <= 30;
+      allow update, delete: if isStaff();
+    }
+
+    // Patient consultations
+    match /conversations/{conversationId} {
+      allow read: if isValidId(conversationId);
+      allow create, update: if isValidId(conversationId) &&
+        request.resource.data.keys().hasAll(['id', 'customer', 'channel', 'status']) &&
+        request.resource.data.customer is string &&
+        request.resource.data.customer.size() <= 120;
+      allow delete: if isStaff();
+
+      // Consultation messages subcollection
+      match /messages/{messageId} {
+        allow read: if isValidId(messageId);
+        allow create: if isValidId(messageId) &&
+          request.resource.data.keys().hasAll(['id', 'conversationId', 'sender', 'text']) &&
+          request.resource.data.text is string &&
+          request.resource.data.text.size() <= 4000;
+        allow update, delete: if isStaff();
+      }
+    }
+  }
+}

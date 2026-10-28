@@ -131,16 +131,6 @@ export const CampaignAdsGallery: React.FC<CampaignAdsGalleryProps> = ({
             >
               العناية بالجسم والمكملات
             </button>
-            <button
-              onClick={() => setSelectedCategory('bot')}
-              className={`px-3 py-1.5 rounded-xl font-bold transition whitespace-nowrap ${
-                selectedCategory === 'bot'
-                  ? 'bg-red-600 text-white shadow'
-                  : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
-              }`}
-            >
-              🤖 Benda Bot
-            </button>
           </div>
 
           <div className="relative w-full sm:w-64">

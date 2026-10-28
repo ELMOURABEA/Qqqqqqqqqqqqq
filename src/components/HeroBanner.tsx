@@ -110,34 +110,34 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({
   };
 
   return (
-    <section className="bg-gradient-to-b from-bendary-950 via-bendary-900 to-slate-900 text-white pt-8 pb-12 px-4 relative overflow-hidden shadow-2xl">
+    <section className="bg-gradient-to-b from-bendary-950 via-bendary-900 to-slate-900 text-white pt-4 pb-8 sm:pt-8 sm:pb-12 px-3 sm:px-4 relative overflow-hidden shadow-2xl">
       {/* Ambient background glow */}
       <div className="absolute top-0 right-0 -mr-24 -mt-24 w-96 h-96 rounded-full bg-red-600/25 blur-3xl pointer-events-none"></div>
       <div className="absolute bottom-0 left-0 -ml-24 -mb-24 w-96 h-96 rounded-full bg-amber-500/15 blur-3xl pointer-events-none"></div>
 
-      <div className="max-w-7xl mx-auto space-y-8 relative z-10">
+      <div className="max-w-7xl mx-auto space-y-6 sm:space-y-8 relative z-10">
         
         {/* Top Row: Mission Statement & Quick hotline */}
-        <div className="flex flex-col lg:flex-row items-center justify-between gap-6">
-          <div className="space-y-3 text-center lg:text-right max-w-2xl">
-            <div className="inline-flex items-center gap-2 bg-white/15 backdrop-blur-md text-white text-xs font-black px-4 py-1.5 rounded-full border border-white/20 shadow-sm">
-              <Heart className="w-3.5 h-3.5 fill-red-400 text-red-400 animate-pulse" />
-              <span>رعاية من القلب - 46 سنة • صيدليات البنداري منذ 1980</span>
+        <div className="flex flex-col lg:flex-row items-center justify-between gap-5 sm:gap-6">
+          <div className="space-y-3 text-center lg:text-right max-w-2xl w-full">
+            <div className="inline-flex items-center gap-2 bg-white/15 backdrop-blur-md text-white text-[11px] sm:text-xs font-black px-3 sm:px-4 py-1.5 rounded-full border border-white/20 shadow-sm max-w-full">
+              <Heart className="w-3.5 h-3.5 fill-red-400 text-red-400 animate-pulse shrink-0" />
+              <span className="truncate">رعاية من القلب - 46 سنة • صيدليات البنداري منذ 1980</span>
             </div>
 
-            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black leading-tight tracking-tight">
+            <h1 className="text-xl sm:text-3xl lg:text-4xl font-black leading-tight tracking-tight">
               طلب دوائك واستشارتك الطبية <br />
               <span className="text-amber-300">أسرع وأدق من أي وقت مضى</span>
             </h1>
 
-            <p className="text-slate-200 text-xs sm:text-sm leading-relaxed max-w-xl font-light">
+            <p className="text-slate-200 text-xs sm:text-sm leading-relaxed max-w-xl font-light mx-auto lg:mx-0">
               تصفح أكثر من 22,000 دواء ومستحضر تجميلي مرخص مع خدمة توصيل فورية خلال 30-45 دقيقة من فروعنا الـ 11، واستشارات صيدلانية إكلينيكية مباشرة مع <strong className="font-bold underline decoration-amber-400 decoration-2">صيدلي البنداري المناوب</strong> على مدار 24 ساعة.
             </p>
 
-            <div className="flex flex-wrap gap-2.5 justify-center lg:justify-start pt-1">
+            <div className="flex flex-col sm:flex-row flex-wrap gap-2 sm:gap-2.5 justify-center lg:justify-start pt-1 w-full">
               <button
                 onClick={onOpenPrescription}
-                className="bg-white text-bendary-950 font-black px-5 py-2.5 rounded-xl shadow-xl hover:bg-slate-100 transition flex items-center gap-2 active:scale-95 text-xs sm:text-sm"
+                className="w-full sm:w-auto bg-white text-bendary-950 font-black px-5 py-2.5 rounded-xl shadow-xl hover:bg-slate-100 transition flex items-center justify-center gap-2 active:scale-95 text-xs sm:text-sm"
               >
                 <Upload className="w-4 h-4 text-bendary-600" />
                 <span>اطلب بروشتة فورية</span>
@@ -145,7 +145,7 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({
 
               <button
                 onClick={onOpenChat}
-                className="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-5 py-2.5 rounded-xl shadow-lg border border-emerald-400/40 transition flex items-center gap-2 active:scale-95 text-xs sm:text-sm"
+                className="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-5 py-2.5 rounded-xl shadow-lg border border-emerald-400/40 transition flex items-center justify-center gap-2 active:scale-95 text-xs sm:text-sm"
               >
                 <Sparkles className="w-4 h-4 text-emerald-200" />
                 <span>استشارة صيدلي البنداري 24 ساعة</span>
@@ -153,7 +153,7 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({
 
               <a
                 href="tel:01200400094"
-                className="bg-amber-400 hover:bg-amber-300 text-slate-950 font-black px-4 py-2.5 rounded-xl shadow-md transition flex items-center gap-2 text-xs sm:text-sm"
+                className="w-full sm:w-auto bg-amber-400 hover:bg-amber-300 text-slate-950 font-black px-4 py-2.5 rounded-xl shadow-md transition flex items-center justify-center gap-2 text-xs sm:text-sm"
               >
                 <PhoneCall className="w-4 h-4 text-slate-900" />
                 <span className="font-mono dir-ltr">01200400094</span>
