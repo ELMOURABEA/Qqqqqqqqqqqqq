@@ -2,5 +2,5 @@
   "name": "El-Bendary Pharmacies & MoSTaa-ChaT",
   "description": "Complete digital healthcare and pharmacy ecosystem for El-Bendary Pharmacies featuring integrated MoSTaa-ChaT for real-time patient support, prescription fulfillment, and omnichannel clinical operations for Android, iOS, and Web.",
   "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+  "majorCapabilities": []
 }

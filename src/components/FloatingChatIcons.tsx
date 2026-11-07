@@ -13,7 +13,7 @@ export const FloatingChatIcons: React.FC<FloatingChatIconsProps> = ({
   const [isExpanded, setIsExpanded] = useState(true);
 
   return (
-    <div className="fixed bottom-20 md:bottom-6 left-4 z-40 flex flex-col items-start gap-2.5 select-none" dir="rtl">
+    <div className="hidden md:flex fixed bottom-6 left-6 z-40 flex-col items-start gap-2.5 select-none" dir="rtl">
       {/* Sub-actions when expanded */}
       {isExpanded && (
         <div className="flex flex-col gap-2 animate-in slide-in-from-bottom-3 duration-200">

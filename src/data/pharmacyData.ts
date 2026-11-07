@@ -533,8 +533,8 @@ export const initialMoSTaaState: MoSTaaState = {
   channels: [
     { id: 'wa1', type: 'whatsapp', name: 'خدمة عملاء واتساب صيدليات البنداري (+20 120 040 0094)', enabled: true, status: 'live', accountHandle: '+201200400094' },
     { id: 'web1', type: 'web', name: 'استشارة صيدلي البنداري المباشرة', enabled: true, status: 'live', accountHandle: 'elbendary.app/chat' },
-    { id: 'fb1', type: 'messenger', name: 'صفحة فيسبوك الرسمية - صيدليات البنداري', enabled: true, status: 'demo', accountHandle: 'facebook.com/elbendarypharmacies' },
-    { id: 'ig1', type: 'instagram', name: 'حساب إنستغرام @elbendary.pharmacy', enabled: true, status: 'demo', accountHandle: '@elbendary.pharmacy' }
+    { id: 'fb1', type: 'messenger', name: 'صفحة فيسبوك الرسمية - صيدليات البنداري', enabled: true, status: 'connected', accountHandle: 'facebook.com/elbendarypharmacies' },
+    { id: 'ig1', type: 'instagram', name: 'حساب إنستغرام @elbendary.pharmacy', enabled: true, status: 'connected', accountHandle: '@elbendary.pharmacy' }
   ],
   conversations: [
     {

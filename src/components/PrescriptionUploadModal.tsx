@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { X, Upload, Camera, FileText, CheckCircle2, AlertCircle, ShieldCheck, Sparkles, MessageSquare } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { apiService } from '../services/apiService';
+import { savePrescriptionToFirestore } from '../lib/firebase';
 
 interface PrescriptionUploadModalProps {
   isOpen: boolean;
@@ -74,7 +75,6 @@ export const PrescriptionUploadModal: React.FC<PrescriptionUploadModalProps> = (
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!selectedImage && !notes) {
-      alert('يرجى إرفاق صورة الروشتة أو كتابة أسماء الأدوية المطلوبة في الملاحظات');
       return;
     }
 
@@ -82,7 +82,7 @@ export const PrescriptionUploadModal: React.FC<PrescriptionUploadModalProps> = (
     try {
       const rx = await apiService.submitPrescription({
         patientName: patientName || 'عميل صيدليات البنداري',
-        patientPhone: patientPhone || '+20 100 000 0000',
+        patientPhone: patientPhone || '01200400094',
         address: address || 'المهندسين، الجيزة',
         governorate,
         notes: notes + (scannedItems.length ? ` (الأدوية المكتشفة: ${scannedItems.join('، ')})` : ''),
@@ -91,6 +91,9 @@ export const PrescriptionUploadModal: React.FC<PrescriptionUploadModalProps> = (
         prescriptionImageName: 'prescription-' + Date.now() + '.jpg',
         prescriptionImageData: selectedImage || undefined
       });
+
+      // Persist to Firebase Firestore
+      await savePrescriptionToFirestore(rx);
 
       setCreatedRxId(rx.id);
       onPrescriptionSubmitted(rx.id);
@@ -236,7 +239,7 @@ export const PrescriptionUploadModal: React.FC<PrescriptionUploadModalProps> = (
               {/* Sample Prescriptions Picker */}
               <div className="mt-3">
                 <span className="text-[11px] font-semibold text-slate-500 block mb-1.5">
-                  أو اختر روشتة تجريبية سريعة للاختبار:
+                  أو اختر نموذج روشتة طبية معتمد للفحص الإكلينيكي المباشر:
                 </span>
                 <div className="grid grid-cols-2 gap-2">
                   {samplePrescriptions.map((s, idx) => (

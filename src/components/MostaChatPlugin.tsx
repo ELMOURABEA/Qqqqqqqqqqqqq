@@ -8,6 +8,7 @@ import { Product } from '../types/pharmacy';
 import { apiService } from '../services/apiService';
 import { catalogProducts } from '../data/pharmacyData';
 import { BendaryLogo } from './BendaryLogo';
+import { saveChatMessageToFirestore } from '../lib/firebase';
 
 interface MostaChatPluginProps {
   isOpen: boolean;
@@ -31,6 +32,7 @@ export const MostaChatPlugin: React.FC<MostaChatPluginProps> = ({
   const [voiceSeconds, setVoiceSeconds] = useState(0);
   const [isAiThinking, setIsAiThinking] = useState(false);
   const [playingAudioId, setPlayingAudioId] = useState<string | null>(null);
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const timerRef = useRef<any>(null);
@@ -102,6 +104,7 @@ export const MostaChatPlugin: React.FC<MostaChatPluginProps> = ({
     // 1. Send patient message
     const patientMsg = await apiService.sendChatMessage('c1', text, patientName, 'text');
     setMessages(prev => [...prev, patientMsg]);
+    saveChatMessageToFirestore('c1', { id: patientMsg.id, sender: patientMsg.sender, text: patientMsg.text, timestamp: patientMsg.at });
 
     // 2. Trigger Pharmacist / AI response
     setIsAiThinking(true);
@@ -116,6 +119,7 @@ export const MostaChatPlugin: React.FC<MostaChatPluginProps> = ({
       { suggestedByAi: true }
     );
     setMessages(prev => [...prev, pharmacistMsg]);
+    saveChatMessageToFirestore('c1', { id: pharmacistMsg.id, sender: pharmacistMsg.sender, text: pharmacistMsg.text, timestamp: pharmacistMsg.at });
   };
 
   const handleSimulatePrescriptionUpload = async () => {
@@ -161,7 +165,10 @@ export const MostaChatPlugin: React.FC<MostaChatPluginProps> = ({
   const handleAddQuoteToCart = () => {
     onAddToCart(catalogProducts[0], 1);
     onAddToCart(catalogProducts[1], 1);
-    alert('تمت إضافة منتجات الروشتة المعتمدة (جافيسكون + هيلسيك) إلى سلة مشترياتك بنجاح!');
+    setToastMessage('تمت إضافة منتجات الروشتة المعتمدة (جافيسكون + هيلسيك) إلى سلة مشترياتك بنجاح!');
+    setTimeout(() => {
+      setToastMessage(null);
+    }, 4000);
   };
 
   const quickChips = [
@@ -257,6 +264,14 @@ export const MostaChatPlugin: React.FC<MostaChatPluginProps> = ({
           </div>
           <span className="text-[10px] font-mono text-slate-500 hidden sm:inline">مشفر ومحمي</span>
         </div>
+
+        {/* Toast Notification Banner */}
+        {toastMessage && (
+          <div className="bg-emerald-600 text-white px-4 py-2 text-xs font-bold text-center animate-in slide-in-from-top-2 shrink-0 flex items-center justify-center gap-2 shadow">
+            <Check className="w-4 h-4" />
+            <span>{toastMessage}</span>
+          </div>
+        )}
 
         {/* Chat Messages Body */}
         <div className="flex-1 p-4 overflow-y-auto space-y-3.5 bg-slate-50/70">

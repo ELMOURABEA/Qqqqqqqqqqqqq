@@ -126,7 +126,7 @@ export const OrderTrackerModal: React.FC<OrderTrackerModalProps> = ({
             <div className="bg-amber-50 border border-amber-200 p-4 rounded-2xl text-xs text-amber-900 text-center space-y-2">
               <AlertCircle className="w-6 h-6 text-amber-600 mx-auto" />
               <p className="font-bold">لم يتم العثور على طلب بهذا الرقم: {searchId}</p>
-              <p className="text-[11px] text-slate-600">يمكنك تجربة البحث بالطلب التجريبي: <strong>MOS-1024</strong></p>
+              <p className="text-[11px] text-slate-600">يمكنك الاستعلام برقم الطلب الصادر أو مراجعة الرقم المعتمد: <strong>MOS-1024</strong> أو الاتصال مباشرة بالخط الساخن: <strong>01200400094</strong></p>
             </div>
           )}
 
