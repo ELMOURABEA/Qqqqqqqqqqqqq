@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Analytics } from '@vercel/analytics/react';
 import { 
   Grid, Pill, Sparkles, Scissors, Smile, Baby, Zap, 
   Activity, Tag, HeartPulse, Upload, ShieldCheck, 
@@ -517,6 +518,8 @@ export default function App() {
         prefilledQuery={chatPrefill}
         patientName="المريض"
       />
+
+      <Analytics />
     </div>
   );
 }
