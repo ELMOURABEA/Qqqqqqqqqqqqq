@@ -23,6 +23,7 @@ import { MobileBottomNav } from './components/MobileBottomNav';
 import { FloatingChatIcons } from './components/FloatingChatIcons';
 import { BendaryLogo } from './components/BendaryLogo';
 import { CampaignAdsGallery } from './components/CampaignAdsGallery';
+import { HealthLibrary } from './components/HealthLibrary';
 import { CampaignAd } from './data/campaignAds';
 
 export default function App() {
@@ -264,6 +265,13 @@ export default function App() {
             }}
           />
         </section>
+
+        <HealthLibrary
+          onAskPharmacist={(message) => {
+            setChatPrefill(message);
+            setIsChatOpen(true);
+          }}
+        />
 
         {/* Product Catalog Grid */}
         <section className="max-w-7xl mx-auto px-4 pt-10">
