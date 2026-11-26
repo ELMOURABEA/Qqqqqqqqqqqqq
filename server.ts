@@ -147,13 +147,14 @@ app.get('/api/payments', (req: Request, res: Response) => {
 
 app.post('/api/payments/:id/:action', (req: Request, res: Response) => {
   const { id, action } = req.params;
+  const actionName = Array.isArray(action) ? action[0] : action;
   const pay = serverState.payments.find((p: any) => p.id === id);
   if (!pay) return res.status(404).json({ error: 'payment_not_found' });
-  pay.status = action === 'approve' ? 'approved' : 'rejected';
+  pay.status = actionName === 'approve' ? 'approved' : 'rejected';
 
   serverState.audit.unshift({
     id: 'aud-' + Date.now(),
-    action: `${action.toUpperCase()}_PAYMENT`,
+    action: `${actionName.toUpperCase()}_PAYMENT`,
     user: 'د. مصطفى المرابعة (Mostafa Admin)',
     timestamp: new Date().toISOString()
   });
